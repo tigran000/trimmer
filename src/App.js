@@ -1,25 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import TrimmerContainer from "./components/TrimmerContainer";
+import TrimmerFooter from "./components/TrimmerFooter";
+import MusicSlider from "./components/MusicSlider";
 
 function App() {
+  const [value, setValue] = useState([0, 5]);
+  const [zoomValue, setZoomValue] = useState(1.75);
+  const [maxValue, setMaxValue] = useState(10);
+
+  const handleChange = (event, newValue) => setValue(newValue);
+
+  const handleZoomChange = (event, newValue) => setZoomValue(newValue);
+
+  const maxValueHandler = duration => setMaxValue(duration);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TrimmerContainer>
+      <MusicSlider
+        min={0}
+        max={maxValue}
+        value={value}
+        step={0.5}
+        marks
+        onChange={handleChange}
+        valueLabelDisplay="auto"
+        aria-labelledby="range-slider"
+        style={{ width: `${zoomValue * 40}%`, height: "30px" }}
+      />
+
+      <hr />
+      <TrimmerFooter
+        zoomValue={zoomValue}
+        handleZoomChange={handleZoomChange}
+        maxValueHandler={maxValueHandler}
+      />
+    </TrimmerContainer>
   );
 }
 
